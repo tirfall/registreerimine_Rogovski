@@ -24,11 +24,10 @@ def rootmain():
     rootmain.title("Reg ja auto")
 
     lblname=Label(rootmain,text="Tere tulemast!",font="Arial 30")
-    var=IntVar()
-    log_btn=Radiobutton(rootmain,text="autoriseerimise",font="Arial 30",command=logpage)
-    reg_btn=Radiobutton(rootmain,text="registreerimine",font="Arial 30",command=regpage)
-    mainmut=Radiobutton(rootmain,text="Nime või parooli muutmine",font="Arial 30",command=changepassname)
-    mainunus=Radiobutton(rootmain,text="Unustanud parooli taastamine",font="Arial 30",command=forgotpass)
+    log_btn=Button(rootmain,text="autoriseerimise",font="Arial 30",command=logpage)
+    reg_btn=Button(rootmain,text="registreerimine",font="Arial 30",command=regpage)
+    mainmut=Button(rootmain,text="Nime või parooli muutmine",font="Arial 30",command=changepassname)
+    mainunus=Button(rootmain,text="Unustanud parooli taastamine",font="Arial 30",command=forgotpass)
 
     ob=[lblname,log_btn,reg_btn,mainmut,mainunus]
     for item in ob:
@@ -39,10 +38,12 @@ def rootmain():
     rootmain.mainloop()
 
 def regpage():
+        
+
         main.destroy()
         aken=Tk()
         aken.geometry("1000x1000")
-        aken.title("reg")
+        aken.title("registreerimine")
 
        
         lbl=Label(aken,text="registreerimine",font="Quicksand 45")
@@ -62,12 +63,15 @@ def regpage():
         def clearall2(event):
             reg_gmail.delete(0,END)
         reg_gmail.bind("<Button-1>",clearall2)
-        btn_login=Button(aken,text="Registreerimine",font="Arial 30")
+        def proverka():
+            pass
+        btn_login=Button(aken,text="Registreerimine",font="Arial 30",command=proverka)
 
+        btn_taga=Button(aken,text="Main",command=rootmain,font="Arial 12")
 
         reg_nimi.bind("<Return>")#enter
 
-        ob=[lbl,reg_nimi,reg_pass,reg_gmail,btn_login]
+        ob=[lbl,reg_nimi,reg_pass,reg_gmail,btn_login,btn_taga]
         for item in ob:
             item.pack()
         aken.mainloop()
@@ -78,23 +82,34 @@ def logpage():
         login.geometry("1000x1000")
         login.title("auto")
 
+        lognimi=StringVar()
+        logpass=StringVar()
+
         lbl=Label(login,text="autoriseerimise",font="Quicksand 45")
-        log_nimi=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT)
+        log_nimi=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT,textvariable=lognimi)
         log_nimi.insert(0, "name..")
         def clearall(event):
             log_nimi.delete(0,END)
         log_nimi.bind("<Button-1>",clearall)
-        log_pass=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT)
+        log_pass=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT,textvariable=logpass)
         log_pass.insert(0, "password...")
         def clearall1(event):
             log_pass.delete(0,END)
         log_pass.bind("<Button-1>",clearall1)
+        def autoresermine(event):
+            if lognimi == "aleks" and logpass == "12345678":
+                succes=Tk()
+                succes.geometry("1000x1000")
+                succes.title("succesful")
+                lbl=Label(succes,text="SUCCESSFUL").pack()
+
         btn_login=Button(login,text="Login")
+        btn_login.bind("<Button-1>",autoresermine)
 
+        btn_taga=Button(login,text="Main",command=rootmain,font="Arial 12")
+        
 
-        log_nimi.bind("<Return>")#enter
-
-        ob=[lbl,log_nimi,log_pass,btn_login]
+        ob=[lbl,log_nimi,log_pass,btn_login,btn_taga]
         for item in ob:
             item.pack()
         login.mainloop()
@@ -131,7 +146,7 @@ def changepassname():
     uus_pass.bind("<Button-1>",clearall4)
     btn_login=Button(changing,text="Sisesta",font="Arial 30")
 
-    btn_taga=Button(changing,text="Main",command=rootmain)
+    btn_taga=Button(changing,text="Main",command=rootmain,font="Arial 12")
 
     ob=[lbl,lbl1,vana_gmail,vana_pass,lbl2,uus_gmail,uus_pass,btn_login,btn_taga]
     for item in ob:
@@ -153,7 +168,9 @@ def forgotpass():
     unus_gmail.bind("<Button-1>",clearall2)
     btn_login=Button(forgot,text="Saada",font="Arial 30")
 
-    ob=[lbl,lbl1,unus_gmail,btn_login]
+    btn_taga=Button(forgot,text="Main",command=rootmain,font="Arial 12")
+
+    ob=[lbl,lbl1,unus_gmail,btn_login,btn_taga]
     for item in ob:
         item.pack()
     forgot.mainloop()
@@ -164,10 +181,10 @@ main.title("Reg ja auto")
 
 lblname=Label(main,text="Tere tulemast!",font="Arial 30")
 var=IntVar()
-log_btn=Radiobutton(main,text="autoriseerimise",font="Arial 30",command=logpage)
-reg_btn=Radiobutton(main,text="registreerimine",font="Arial 30",command=regpage)
-mainmut=Radiobutton(main,text="Nime või parooli muutmine",font="Arial 30",command=changepassname)
-mainunus=Radiobutton(main,text="Unustanud parooli taastamine",font="Arial 30",command=forgotpass)
+log_btn=Button(main,text="autoriseerimise",font="Arial 24",command=logpage,bg="Lightblue")
+reg_btn=Button(main,text="registreerimine",font="Arial 24",command=regpage,bg="Lightblue")
+mainmut=Button(main,text="Nime või parooli muutmine",font="Arial 24",command=changepassname,bg="Lightblue")
+mainunus=Button(main,text="Unustanud parooli taastamine",font="Arial 24",command=forgotpass,bg="Lightblue")
 
 ob=[lblname,log_btn,reg_btn,mainmut,mainunus]
 for item in ob:
