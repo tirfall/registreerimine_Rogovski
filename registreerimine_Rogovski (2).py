@@ -40,7 +40,7 @@ def rootmain():
 def regpage():
         
 
-        main.destroy()
+        main.quit()
         aken=Tk()
         aken.geometry("1000x1000")
         aken.title("registreerimine")
@@ -64,8 +64,35 @@ def regpage():
             reg_gmail.delete(0,END)
         reg_gmail.bind("<Button-1>",clearall2)
         def proverka():
-            pass
-        btn_login=Button(aken,text="Registreerimine",font="Arial 30",command=proverka)
+            vname=reg_nimi.get()
+            vpass=reg_pass.get()
+            vgmail=reg_gmail.get()
+            if "-" in vname or "-" in vpass or "-" in vgmail:
+                reg_nimi.configure(bg="red")
+                reg_pass.configure(bg="red")
+                reg_gmail.configure(bg="red")
+                lbl.configure(text="Sinul andmed on -")
+            elif "@" and "." not in vgmail:
+                lbl.configure(text="Vale gmail!")
+                reg_gmail.configure(bg="red")
+            else:
+                user_pass.update({vname:vpass})
+                pass_user.update({vpass:vname})
+                user_mail.update({vname:vgmail})
+                reg_nimi.configure(bg="Green")
+                reg_pass.configure(bg="Green")
+                reg_gmail.configure(bg="Green")
+                lbl.configure(text="succesful")
+                f = open("users.txt", "w", encoding="utf-8-sig")
+                for vname, vpass in user_pass.items():
+                    f.write(f'{vname}-{vpass}\n')
+                f.close
+                f = open("users_gmail.txt", "w", encoding="utf-8-sig")
+                for vname, vgmail in user_mail.items():
+                    f.write(f'{vname}-{vgmail}\n')
+                f.close
+
+        btn_login=Button(aken,text="Registreerimine",font="Arial 24",command=proverka)
 
         btn_taga=Button(aken,text="Main",command=rootmain,font="Arial 12")
 
@@ -77,34 +104,46 @@ def regpage():
         aken.mainloop()
 
 def logpage():
-        main.destroy()
+        main.quit()
         login=Tk()
         login.geometry("1000x1000")
         login.title("auto")
-
-        lognimi=StringVar()
-        logpass=StringVar()
-
+        
         lbl=Label(login,text="autoriseerimise",font="Quicksand 45")
-        log_nimi=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT,textvariable=lognimi)
+        log_nimi=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT)
         log_nimi.insert(0, "name..")
         def clearall(event):
             log_nimi.delete(0,END)
         log_nimi.bind("<Button-1>",clearall)
-        log_pass=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT,textvariable=logpass)
+        log_pass=Entry(login,bg="lightblue",width=15,font="Quicksand 24",justify=LEFT)
         log_pass.insert(0, "password...")
         def clearall1(event):
             log_pass.delete(0,END)
         log_pass.bind("<Button-1>",clearall1)
-        def autoresermine(event):
-            if lognimi == "aleks" and logpass == "12345678":
+        def autoresermine():
+            v=log_nimi.get()
+            v1=log_pass.get()
+            x =user_pass.get(v)
+            y =pass_user.get(v1)
+            if x == None or y == None:
+                log_nimi.configure(bg="Red")
+                log_pass.configure(bg="Red")
+                    
+            else:
+                log_nimi.configure(bg="Green")
+                log_pass.configure(bg="Green")
                 succes=Tk()
                 succes.geometry("1000x1000")
                 succes.title("succesful")
-                lbl=Label(succes,text="SUCCESSFUL").pack()
+                lbl=Label(succes,text="SUCCESSFUL",font="Arial 30")
+                lbl.pack()
+                succes.mainloop()
 
-        btn_login=Button(login,text="Login")
-        btn_login.bind("<Button-1>",autoresermine)
+            
+                
+
+        btn_login=Button(login,text="Login",command=autoresermine,font="Arial 24")
+        
 
         btn_taga=Button(login,text="Main",command=rootmain,font="Arial 12")
         
@@ -115,7 +154,7 @@ def logpage():
         login.mainloop()
 
 def changepassname():
-    main.destroy()
+    main.quit()
     changing=Tk()
     changing.geometry("1000x1000")
     changing.title("Changepassname")
@@ -144,7 +183,24 @@ def changepassname():
     def clearall4(event):
         uus_pass.delete(0,END)
     uus_pass.bind("<Button-1>",clearall4)
-    btn_login=Button(changing,text="Sisesta",font="Arial 30")
+    def changename():
+        vanapass = vana_pass.get()
+        vananimi = vana_gmail.get()
+        uuspass = uus_pass.get()
+        uusnimi = uus_gmail.get()
+        x =user_pass.get(vananimi)
+        y =pass_user.get(vanapass)
+        if x == None or y == None:
+            vana_gmail.configure(bg="Red")
+            vana_pass.configure(bg="Red")
+        else:
+            del user_pass[vananimi]
+            del pass_user[vanapass]
+            user_pass.update({uusnimi:uuspass})
+            pass_user.update({uuspass:uusnimi})
+
+
+    btn_login=Button(changing,text="Sisesta",font="Arial 30",command=changename)
 
     btn_taga=Button(changing,text="Main",command=rootmain,font="Arial 12")
 
@@ -154,7 +210,7 @@ def changepassname():
     changing.mainloop()
 
 def forgotpass():
-    main.destroy()
+    main.quit()
     forgot=Tk()
     forgot.geometry("1000x1000")
     forgot.title("Forgotpass")
